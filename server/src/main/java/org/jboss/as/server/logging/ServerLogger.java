@@ -1345,6 +1345,20 @@ public interface ServerLogger extends BasicLogger {
     @Message(id = 277, value = "Failed to load SSH Credentials %s")
     RuntimeException failedToLoadSSHCredentials(@Cause Throwable cause, String message);
 
+<<<<<<< HEAD
+=======
+    @LogMessage(level = INFO)
+    @Message(id = 278, value = "The configuration history is managed through Git")
+    void usingGit();
+
+    @LogMessage(level = INFO)
+    @Message(id = 279, value = "Git initialized in %s")
+    void gitRespositoryInitialized(String name);
+
+    @Message(id = 280, value = "Unable to initialise the git repository.")
+    IllegalArgumentException unableToInitialiseGitRepository(@Cause Throwable cause);
+
+>>>>>>> 55f63f8df9 ([WFCORE-5147] If initialising the git repository fails report as an Exception to end boot.)
     ////////////////////////////////////////////////
     //Messages without IDs
 
