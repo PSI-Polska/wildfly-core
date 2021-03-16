@@ -273,10 +273,6 @@
         </dependency>
         <dependency>
             <groupId>org.wildfly.security</groupId>
-            <artifactId>wildfly-elytron</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wildfly.security</groupId>
             <artifactId>wildfly-elytron-asn1</artifactId>
         </dependency>
         <dependency>
