@@ -145,24 +145,16 @@
         <version.com.fasterxml.jackson.core.jackson-databind>2.10.4</version.com.fasterxml.jackson.core.jackson-databind>
         <version.com.googlecode.javaewah>1.1.7</version.com.googlecode.javaewah>
         <version.com.google.code.findbugs>3.0.2</version.com.google.code.findbugs>
-<<<<<<< HEAD
-        <version.com.google.guava>25.0-jre</version.com.google.guava>
-        <version.com.io7m.xom>1.2.10</version.com.io7m.xom>
-        <version.com.jcraft.jsch>0.1.54</version.com.jcraft.jsch>
-        <version.commons-io>2.5</version.commons-io>
-        <version.commons-lang>2.6</version.commons-lang>
-        <version.io.undertow>2.2.17.Final</version.io.undertow>
-        <version.jakarta.inject.jakarta.inject-api>1.0.1</version.jakarta.inject.jakarta.inject-api>
-=======
         <version.com.google.guava>30.1.1-jre</version.com.google.guava>
+        <version.com.io7m.xom>1.2.10</version.com.io7m.xom>
         <version.com.google.guava.failureaccess>1.0.1</version.com.google.guava.failureaccess>
         <version.com.jcraft.jsch>0.1.55</version.com.jcraft.jsch>
         <version.commons-cli>1.4</version.commons-cli>
+        <version.commons-io>2.5</version.commons-io>
         <version.commons-lang>2.6</version.commons-lang>
         <version.commons-lang3>3.11</version.commons-lang3>
-        <version.io.undertow>2.2.13.Final</version.io.undertow>
+        <version.io.undertow>2.2.17.Final</version.io.undertow>
         <version.jakarta.inject.jakarta.inject-api>1.0.5</version.jakarta.inject.jakarta.inject-api>
->>>>>>> 3b14c3dcc0 ([WFCORE-5720] Add org.apache.commons.cli and org.apache.commons.lang3 modules)
         <version.jakarta.json.jakarta-json-api>1.1.6</version.jakarta.json.jakarta-json-api>
         <version.javax.xml.bind.jaxb-api>2.4.0-b180830.0359</version.javax.xml.bind.jaxb-api>
         <version.junit>4.12</version.junit>
