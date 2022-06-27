@@ -1345,8 +1345,6 @@ public interface ServerLogger extends BasicLogger {
     @Message(id = 277, value = "Failed to load SSH Credentials %s")
     RuntimeException failedToLoadSSHCredentials(@Cause Throwable cause, String message);
 
-<<<<<<< HEAD
-=======
     @LogMessage(level = INFO)
     @Message(id = 278, value = "The configuration history is managed through Git")
     void usingGit();
@@ -1358,7 +1356,6 @@ public interface ServerLogger extends BasicLogger {
     @Message(id = 280, value = "Unable to initialise the git repository.")
     IllegalArgumentException unableToInitialiseGitRepository(@Cause Throwable cause);
 
->>>>>>> 55f63f8df9 ([WFCORE-5147] If initialising the git repository fails report as an Exception to end boot.)
     ////////////////////////////////////////////////
     //Messages without IDs
 
@@ -1368,19 +1365,11 @@ public interface ServerLogger extends BasicLogger {
     @Message(id = Message.NONE, value = "The attribute '%s' has changed from '%s' to '%s'")
     String jmxAttributeChange(String name, String oldState, String stateString);
 
-    @LogMessage(level = INFO)
-    @Message(id = Message.NONE, value = "The configuration history is managed through Git")
-    void usingGit();
-
     @Message(id = Message.NONE, value = "Repository initialized")
     String repositoryInitialized();
 
     @Message(id = Message.NONE, value = "Adding .gitignore")
     String addingIgnored();
-
-    @LogMessage(level = INFO)
-    @Message(id = Message.NONE, value = "Git initialized in %s")
-    void gitRespositoryInitialized(String name);
 
     @LogMessage(level = DEBUG)
     @Message(id = Message.NONE, value = "Deleting file %s")
