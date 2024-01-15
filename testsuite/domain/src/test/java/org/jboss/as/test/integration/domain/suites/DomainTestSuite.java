@@ -20,6 +20,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses ({
         SyncModelOperationTestCase.class,
+        ManagementReadXmlTestCase.class,
         AuditLogTestCase.class,
         IgnoredResourcesProfileCloneTestCase.class,
         CapabilityReloadRequiredUnitTestCase.class,
