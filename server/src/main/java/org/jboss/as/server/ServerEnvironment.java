@@ -303,8 +303,7 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
     private final boolean startSuspended;
     private final boolean startGracefully;
     private final GitRepository repository;
-    private final Stability stability;
-    private final Set<Stability> stabilities;
+    private volatile Stability stability;
 
     public ServerEnvironment(final String hostControllerName, final Properties props, final Map<String, String> env, final String serverConfig,
             final ConfigurationFile.InteractionPolicy configInteractionPolicy, final LaunchType launchType,
@@ -319,12 +318,15 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
             final boolean startGracefully, final String gitRepository, final String gitBranch, final String gitAuthConfiguration,
             final String supplementalConfiguration) {
         assert props != null;
+        assert productConfig != null;
         ConfigurationFile.InteractionPolicy configInteractionPolicy = configurationInteractionPolicy;
         this.startSuspended = startSuspended;
         this.startGracefully = startGracefully;
 
         this.launchType = launchType;
         this.standalone = launchType != LaunchType.DOMAIN;
+
+        this.productConfig = productConfig;
 
         this.initialRunningMode = initialRunningMode == null ? RunningMode.NORMAL : initialRunningMode;
         this.runningModeControl = new RunningModeControl(this.initialRunningMode);
@@ -367,8 +369,7 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
             domainBaseDir = null;
             domainConfigurationDir = null;
             repository = null;
-            this.stability = productConfig.getDefaultStability();
-            this.stabilities = productConfig.getStabilitySet();
+            this.stability = this.productConfig.getDefaultStability();
             WildFlySecurityManager.setPropertyPrivileged(ServerEnvironment.JBOSS_PERSIST_SERVER_CONFIG, "false");
         } else {
 
@@ -525,14 +526,13 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
             }
 
             this.stability = getEnumProperty(props, ProcessEnvironment.STABILITY, productConfig.getDefaultStability());
-            this.stabilities = productConfig.getStabilitySet();
-            if (!stabilities.contains(this.stability)) {
+            if (!productConfig.getStabilitySet().contains(this.stability)) {
                 throw ServerLogger.ROOT_LOGGER.unsupportedStability(this.stability, productConfig.getProductName());
             }
         }
         boolean allowExecutor = true;
         String maxThreads = WildFlySecurityManager.getPropertyPrivileged(BOOTSTRAP_MAX_THREADS, null);
-        if (maxThreads != null && maxThreads.length() > 0) {
+        if (maxThreads != null && !maxThreads.isEmpty()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
                 Integer.decode(maxThreads);
@@ -552,7 +552,6 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
             throw ServerLogger.ROOT_LOGGER.couldNotObtainServerUuidFile(ex, filePath);
         }
         this.serverUUID = uuid;
-        this.productConfig = productConfig;
 
         // Keep a copy of the original properties
         this.primordialProperties = new Properties();
@@ -680,7 +679,7 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
         if (error) {
             throw ServerLogger.ROOT_LOGGER.unableToFindYaml(joiner.toString());
         }
-        return yamlPaths.toArray(new Path[yamlPaths.size()]);
+        return yamlPaths.toArray(new Path[0]);
     }
 
     void resetProvidedProperties() {
@@ -1022,7 +1021,7 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
 
     @Override
     public Set<Stability> getStabilities() {
-        return this.stabilities;
+        return this.productConfig.getStabilitySet();
     }
 
     /**
@@ -1114,7 +1113,7 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
         int cpuCount = ProcessorInfo.availableProcessors();
         int defaultThreads = cpuCount * 2;
         String maxThreads = WildFlySecurityManager.getPropertyPrivileged(BOOTSTRAP_MAX_THREADS, null);
-        if (maxThreads != null && maxThreads.length() > 0) {
+        if (maxThreads != null && !maxThreads.isEmpty()) {
             try {
                 int max = Integer.decode(maxThreads);
                 defaultThreads = Math.max(max, 1);
@@ -1176,6 +1175,23 @@ public class ServerEnvironment extends ProcessEnvironment implements Serializabl
                 configureNodeName(propertyValue, providedProperties);
             }
         }
+    }
+
+
+    public void checkStabilityIsValidForInstallation(Stability stability) {
+        checkStabilityIsValidForInstallation(productConfig, stability);
+    }
+
+    private void checkStabilityIsValidForInstallation(ProductConfig productConfig, Stability stability) {
+        if (!productConfig.getStabilitySet().contains(stability)) {
+            throw ServerLogger.ROOT_LOGGER.unsupportedStability(this.stability, productConfig.getProductName());
+        }
+    }
+
+    // TODO Figure out how to make this package protected
+    public void setStability(Stability stability) {
+        WildFlySecurityManager.setPropertyPrivileged(ProcessEnvironment.STABILITY, stability.toString());
+        this.stability = stability;
     }
 
     /**
