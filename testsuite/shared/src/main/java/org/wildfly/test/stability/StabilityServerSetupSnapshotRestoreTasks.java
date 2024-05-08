@@ -5,6 +5,17 @@
 
 package org.wildfly.test.stability;
 
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.CORE_SERVICE;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAME;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.READ_OPERATION_DESCRIPTION_OPERATION;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.READ_OPERATION_NAMES_OPERATION;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.RELOAD_ENHANCED;
+import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.STABILITY;
+import static org.jboss.as.server.controller.descriptions.ServerDescriptionConstants.SERVER_ENVIRONMENT;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jboss.as.controller.PathAddress;
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.as.controller.operations.common.Util;
@@ -17,17 +28,6 @@ import org.junit.Assume;
 import org.wildfly.core.testrunner.ManagementClient;
 import org.wildfly.core.testrunner.ServerSetupTask;
 import org.wildfly.test.snapshot.ServerSnapshot;
-
-import java.util.EnumSet;
-import java.util.Set;
-
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.CORE_SERVICE;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.NAME;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.READ_OPERATION_DESCRIPTION_OPERATION;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.READ_OPERATION_NAMES_OPERATION;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.RELOAD_ENHANCED;
-import static org.jboss.as.controller.descriptions.ModelDescriptionConstants.STABILITY;
-import static org.jboss.as.server.controller.descriptions.ServerDescriptionConstants.SERVER_ENVIRONMENT;
 
 /**
  * For tests that need to run under a specific server stability level,
@@ -52,9 +52,9 @@ public abstract class StabilityServerSetupSnapshotRestoreTasks implements Server
     @Override
     public final void setup(ManagementClient managementClient) throws Exception {
         // Make sure the desired stability level is one of the ones supported by the server
-        Set<Stability> supportedStabilityLevels = getSupportedStabilityLevels();
+        Set<Stability> supportedStabilityLevels = getSupportedStabilityLevels(managementClient);
         Assume.assumeTrue(
-                String.format("%s is not a supported stability level", desiredStability, supportedStabilityLevels),
+                String.format("%s is not a supported stability level. The supported values are %s", desiredStability, supportedStabilityLevels),
                 supportedStabilityLevels.contains(desiredStability));
 
         // Check the reload-enhanced operation exists in the current stability level
@@ -110,10 +110,14 @@ public abstract class StabilityServerSetupSnapshotRestoreTasks implements Server
         return Stability.fromString(stability);
 
     }
-    private Set<Stability> getSupportedStabilityLevels() {
-        // TODO WFCORE-6731 - see https://github.com/wildfly/wildfly-core/pull/5895#discussion_r1520489808
-        // This information will be available in a management operation, For now just return a hardcoded set
-        return EnumSet.allOf(Stability.class);
+    private Set<Stability> getSupportedStabilityLevels(ManagementClient managementClient) throws Exception {
+        ModelNode op = Util.getReadAttributeOperation(PathAddress.pathAddress(CORE_SERVICE, SERVER_ENVIRONMENT), "permissible-stability-levels");
+        ModelNode result = ManagementOperations.executeOperation(managementClient.getControllerClient(), op);
+        Set<Stability> set = new HashSet<>();
+        for (ModelNode mn : result.asList()) {
+            set.add(Stability.fromString(mn.asString()));
+        }
+        return set;
     }
 
     private Stability reloadToDesiredStability(ModelControllerClient client, Stability stability) throws Exception {
