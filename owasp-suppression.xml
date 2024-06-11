@@ -33,15 +33,6 @@
         <cve>CVE-2020-10740</cve>
     </suppress>
 
-    <!-- CVE-2022-1259 is directly related to undertow-core -->
-    <suppress>
-        <notes><![CDATA[
-       file name: undertow-server-1.10.1.Final.jar
-       ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.wildfly\.security\.elytron\-web/undertow\-server@.*$</packageUrl>
-        <vulnerabilityName>CVE-2022-1259</vulnerabilityName>
-    </suppress>
-
     <!-- False positive, this vulnerability affects module used in wildfly tests only -->
     <suppress>
         <notes><![CDATA[
@@ -81,5 +72,96 @@
         ]]></notes>
         <packageUrl regex="true">^pkg:maven/com\.jayway\.jsonpath/json\-path@.*$</packageUrl>
         <vulnerabilityName>CVE-2023-51074</vulnerabilityName>
+    </suppress>
+
+    <!--Dependency (api-i18n:1.0.0*) used only in tests (scope: test), not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: api-i18n-1.0.0.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.directory\.api/api\-i18n@1.0.0$</packageUrl>
+        <cve>CVE-2018-1337</cve>
+        <cve>CVE-2015-3250</cve>
+    </suppress>
+    <!--Dependency (api-util:1.0.0*) used only in tests (scope: test), not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: apacheds-all-2.0.0-M15.jar (shaded: org.apache.directory.api:api-util:1.0.0-M20)
+   file name: api-util-1.0.0.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.directory\.api/api\-util@1.0.0(-M20)?$</packageUrl>
+        <cve>CVE-2018-1337</cve>
+        <cve>CVE-2015-3250</cve>
+    </suppress>
+    <!--Dependencies (api-ldap-*:1.0.0*) used only in tests (scope: test), not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: apacheds-all-2.0.0-M15.jar (shaded: org.apache.directory.api:api-ldap-*:1.0.0-M20)
+   file name: api-ldap-*-1.0.0.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.directory\.api/api\-ldap\-.*@1.0.0(-M20)?$</packageUrl>
+        <cve>CVE-2018-1337</cve>
+        <cve>CVE-2015-3250</cve>
+    </suppress>
+
+    <!-- Transitive dependencies used only in tests, not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: apacheds-all-2.0.0-M15.jar (shaded: log4j:log4j:1.2.17)
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/log4j/log4j@.*$</packageUrl>
+        <cve>CVE-2019-17571</cve>
+        <cve>CVE-2020-9493</cve>
+        <cve>CVE-2022-23302</cve>
+        <cve>CVE-2022-23305</cve>
+        <cve>CVE-2022-23307</cve>
+        <cve>CVE-2021-4104</cve>
+        <cve>CVE-2023-26464</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+   file name: apacheds-all-2.0.0-M15.jar (shaded: commons-collections:commons-collections:3.2.1)
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/commons\-collections/commons\-collections@.*$</packageUrl>
+        <cve>CVE-2015-7501</cve>
+        <cve>CVE-2015-6420</cve>
+    </suppress>
+
+    <!-- Dependency used only in tests, not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: xmlunit-core-2.6.3.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.xmlunit/xmlunit\-core@.*$</packageUrl>
+        <cve>CVE-2024-31573</cve>
+    </suppress>
+
+    <!-- CVE-2022-1278 affects WildFly up to (excluding) 27.0.0 -->
+    <suppress>
+        <notes><![CDATA[
+   file name: wildfly-*-23.*.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.wildfly\.core/wildfly\-.*@.*$</packageUrl>
+        <cve>CVE-2022-1278</cve>
+    </suppress>
+
+    <!-- Vulnerabilities affects WildFly up to (excluding) 27.0.0 -->
+    <suppress>
+        <notes><![CDATA[
+   file name: wildfly-galleon-plugins-6.5.4.Final.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.wildfly\.galleon\-plugins/wildfly\-galleon\-plugins@.*$</packageUrl>
+        <cve>CVE-2020-10718</cve>
+        <cve>CVE-2020-10740</cve>
+        <cve>CVE-2022-1278</cve>
+    </suppress>
+
+    <!-- Transitive dependency used only in tests, not distributed as part of the deployment/modules -->
+    <suppress>
+        <notes><![CDATA[
+   file name: mina-core-2.0.16.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.mina/mina\-core@.*$</packageUrl>
+        <cve>CVE-2019-0231</cve>
     </suppress>
 </suppressions>
