@@ -495,7 +495,7 @@
         <packageUrl regex="true">^pkg:maven/org\.wildfly\.core/wildfly\-.*@.*$</packageUrl>
         <cve>CVE-2019-3894</cve> <!-- CVE for wildfly version before 16.0.0 -->
         <cve>CVE-2021-3717</cve> <!-- Fixed in 610deff2d099586bba6c1ecd60cbc4de10d3181e -->
-        <cve>CVE-2019-10740</cve> <!-- CVE for wildfly version before 20.0.0 -->
+        <cve>CVE-2020-10740</cve> <!-- CVE for wildfly version before 20.0.0 -->
         <cve>CVE-2022-1278</cve> <!-- Suppressed in e333da3537e3bddd22899bde13fed2f35f37937b -->
     </suppress>
 
