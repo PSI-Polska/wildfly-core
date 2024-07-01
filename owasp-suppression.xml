@@ -349,4 +349,12 @@
         <cve>CVE-2022-42004</cve>
     </suppress>
 
+    <!--  CVE fixed in fork -->
+    <suppress>
+        <notes><![CDATA[
+   file name: wildfly-elytron-realm-token-1.19.2-4-PSI.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.wildfly\.security/wildfly\-elytron\-realm\-token@.*$</packageUrl>
+        <cve>CVE-2024-1233</cve>
+    </suppress>
 </suppressions>
