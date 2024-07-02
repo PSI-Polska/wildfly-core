@@ -26,6 +26,6 @@
     </properties>
 
     <resources>
-        <artifact name="${org.bouncycastle:bcpg-jdk15on}"/>
+        <artifact name="${org.bouncycastle:bcpg-jdk18on}"/>
     </resources>
 </module>
