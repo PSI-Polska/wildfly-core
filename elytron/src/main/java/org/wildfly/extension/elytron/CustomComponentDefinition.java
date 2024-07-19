@@ -14,10 +14,9 @@ import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.RO
 import java.lang.reflect.Method;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.jboss.as.controller.AbstractAddStepHandler;
@@ -93,7 +92,7 @@ class CustomComponentDefinition<C, T> extends SimpleResourceDefinition {
         private final CustomComponentTransformer<C, T> transformer;
 
         private ComponentAddHandler(Class<C> serviceType, CustomComponentTransformer<C, T> transformer, RuntimeCapability<?> ... runtimeCapabilities) {
-            super(new HashSet<>(Arrays.asList(runtimeCapabilities)), ATTRIBUTES);
+            super(Set.of(runtimeCapabilities));
             this.runtimeCapabilities = runtimeCapabilities;
             this.serviceType = serviceType;
             this.transformer = transformer;

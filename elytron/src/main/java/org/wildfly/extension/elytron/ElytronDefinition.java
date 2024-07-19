@@ -427,14 +427,10 @@ class ElytronDefinition extends SimpleResourceDefinition {
 
     private static class ElytronAdd extends AbstractBoottimeAddStepHandler implements ElytronOperationStepHandler {
 
-        private ElytronAdd() {
-            super(DEFAULT_AUTHENTICATION_CONTEXT, INITIAL_PROVIDERS, FINAL_PROVIDERS, DISALLOWED_PROVIDERS, SECURITY_PROPERTIES, REGISTER_JASPI_FACTORY, DEFAULT_SSL_CONTEXT);
-        }
-
         @Override
-        protected void populateModel(ModelNode operation, ModelNode model) throws OperationFailedException {
+        protected void populateModel(OperationContext context, ModelNode operation, Resource resource) throws OperationFailedException {
             Version.getVersion();
-            super.populateModel(operation, model);
+            super.populateModel(context, operation, resource);
 
             if (AuthorizationRegistration.supportsSelfRegistration()) {
                 context.registerCapability(JAKARTA_AUTHORIZATION_RUNTIME_CAPABILITY);

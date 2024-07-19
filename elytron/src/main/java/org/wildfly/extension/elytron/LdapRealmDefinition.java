@@ -18,8 +18,8 @@ import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.RO
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -432,7 +432,7 @@ class LdapRealmDefinition extends SimpleResourceDefinition {
     private static class RealmAddHandler extends BaseAddHandler {
 
         private RealmAddHandler() {
-            super(new HashSet<>(Arrays.asList(MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY, SECURITY_REALM_RUNTIME_CAPABILITY)), ATTRIBUTES);
+            super(Set.of(MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY, SECURITY_REALM_RUNTIME_CAPABILITY));
         }
 
         @Override
