@@ -116,6 +116,15 @@
         <cve>CVE-2021-20220</cve>
     </suppress>
 
+    <!-- Version 2.2.33.Final-PSI contains the fix for CVE-2024-5971 -->
+    <suppress>
+        <notes><![CDATA[
+   file name: undertow-core-2.2.34.Final-PSI.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.undertow/undertow-core@2\.2\.34\.Final-PSI.*$</packageUrl>
+        <cve>CVE-2024-5971</cve>
+    </suppress>
+
     <!-- This issue touches artifact provisioned in Amazon Linux (https://alas.aws.amazon.com/ALAS-2022-1601.html). Also log4j-cve-2021-44228-hotpatch-1.3.5 is not present in PSI WildFly. -->
     <suppress>
        <notes><![CDATA[
