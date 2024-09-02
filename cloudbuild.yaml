@@ -1,0 +1,11 @@
+steps:
+  - name: 'maven:3.9-amazoncorretto-11'
+    args:
+      - clean
+      - deploy
+      - '-DskipTests'
+      - '-Puse-gcp-artifact-registry'
+      - '-Drelease=true'
+    entrypoint: mvn
+options:
+  logging: CLOUD_LOGGING_ONLY
