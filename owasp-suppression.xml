@@ -6,7 +6,7 @@
         <notes><![CDATA[
    file name: json-smart-2.3.jar
    ]]></notes>
-        <packageUrl regex="true">^pkg:maven/net\.minidev/json-smart@2.3$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/net\.minidev/json-smart@2\.3$</packageUrl>
         <cve>CVE-2021-31684</cve>
         <cve>CVE-2023-1370</cve>
     </suppress>
@@ -25,7 +25,7 @@
         <notes><![CDATA[
        file name: undertow-server-1.10.1.Final.jar
        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.wildfly\.security\.elytron\-web/undertow\-server.*@1.10.1.Final$
+        <packageUrl regex="true">^pkg:maven/org\.wildfly\.security\.elytron\-web/undertow\-server.*@1\.10\.1\.Final$
         </packageUrl>
         <cve>CVE-2019-3888</cve>
         <cve>CVE-2019-10184</cve>
@@ -106,7 +106,7 @@
         <notes><![CDATA[
 		file name: commons-text-1.8.jar
 		]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.apache\.commons/commons\-text@1.8$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.commons/commons\-text@1\.8$</packageUrl>
         <vulnerabilityName>CVE-2022-42889</vulnerabilityName>
     </suppress>
 
@@ -114,14 +114,14 @@
         <notes><![CDATA[
         file name: plexus-interpolation-1.24.jar
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.codehaus\.plexus/plexus\-interpolation@1.24$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.codehaus\.plexus/plexus\-interpolation@1\.24$</packageUrl>
         <cve>CVE-2022-4244</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
         file name: plexus-component-annotations-1.7.1.jar
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.codehaus\.plexus/plexus\-component\-annotations@1.7.1$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.codehaus\.plexus/plexus\-component\-annotations@1\.7\.1$</packageUrl>
         <cve>CVE-2022-4244</cve>
     </suppress>
 
@@ -130,7 +130,7 @@
         <notes><![CDATA[
         file name: xmlunit-core-2.6.3.jar
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.xmlunit/xmlunit\-core@2.6.3$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/org\.xmlunit/xmlunit\-core@2\.6\.3$</packageUrl>
         <vulnerabilityName>CVE-2024-31573</vulnerabilityName>
     </suppress>
 
@@ -159,7 +159,7 @@
         <notes><![CDATA[
         file name: apacheds-all-2.0.0-M15.jar (shaded: log4j:log4j:1.2.17)
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/log4j/log4j@1.2.17$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/log4j/log4j@1\.2\.17$</packageUrl>
         <cve>CVE-2019-17571</cve>
         <cve>CVE-2020-9493</cve>
         <cve>CVE-2022-23305</cve>
@@ -199,7 +199,7 @@
         <notes><![CDATA[
         file name: okhttp-3.8.1.jar
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.squareup\.okhttp3/okhttp@3.8.1$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/com\.squareup\.okhttp3/okhttp@3\.8\.1$</packageUrl>
         <vulnerabilityName>CVE-2021-0341</vulnerabilityName>
     </suppress>
     <!-- okio is used only in tests -->
@@ -207,7 +207,7 @@
         <notes><![CDATA[
         file name: okio-1.13.0.jar
         ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.squareup\.okio/okio@1.13.0$</packageUrl>
+        <packageUrl regex="true">^pkg:maven/com\.squareup\.okio/okio@1\.13\.0$</packageUrl>
         <cve>CVE-2023-3635</cve>
     </suppress>
 
