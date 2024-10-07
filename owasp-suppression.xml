@@ -91,14 +91,14 @@
         <cve>CVE-2022-1278</cve>
     </suppress>
 
-    <!-- Version 2.2.33.Final-PSI contains the fix for CVE-2024-5971 -->
+    <!-- Version 2.2.36.Final contains the fix for CVE-2024-6162 and CVE-2024-7885-->
     <suppress>
         <notes><![CDATA[
-   file name: undertow-core-2.2.*.Final-PSI.jar
+   file name: undertow-core-2.2.36.Final.jar
    ]]></notes>
-        <packageUrl regex="true">^pkg:maven/io\.undertow/undertow-core@2\.2\..*\.Final-PSI.*$</packageUrl>
-        <cve>CVE-2024-5971</cve>
+        <packageUrl regex="true">^pkg:maven/io\.undertow/undertow-core@2\.2\.36\.Final.*$</packageUrl>
         <cve>CVE-2024-6162</cve>
+        <cve>CVE-2024-7885</cve>
     </suppress>
 
     <!-- False positive, this vulnerability affects module used in wildfly tests only -->
