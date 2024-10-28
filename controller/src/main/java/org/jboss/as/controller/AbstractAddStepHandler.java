@@ -27,6 +27,8 @@ import org.jboss.as.controller.registry.ImmutableManagementResourceRegistration;
 import org.jboss.as.controller.registry.Resource;
 import org.jboss.dmr.ModelNode;
 import org.jboss.msc.service.ServiceController;
+import org.owasp.esapi.Validator;
+import org.owasp.esapi.reference.DefaultValidator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +59,7 @@ public class AbstractAddStepHandler implements OperationStepHandler, OperationDe
     public AbstractAddStepHandler() { //default constructor to preserve backward compatibility
         this.attributes = NULL_ATTRIBUTES;
         this.capabilities = NULL_CAPABILITIES;
+        Validator test = new DefaultValidator();
     }
 
     /**
