@@ -248,5 +248,12 @@
         <packageUrl regex="true">^pkg:maven/commons-io/commons-io@2\.(4|8\.0)$</packageUrl>
         <cve>CVE-2024-47554</cve>
     </suppress>
-
+    <suppress>
+        <notes><![CDATA[
+   file name: esapi-2.0GA.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.owasp\.esapi/esapi@.*$</packageUrl>
+        <vulnerabilityName>GHSA-r68h-jhhj-9jvm</vulnerabilityName>
+        <vulnerabilityName>GHSA-7c2q-5qmr-v76q</vulnerabilityName>
+    </suppress>
 </suppressions>
