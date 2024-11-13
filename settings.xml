@@ -39,7 +39,7 @@
                 </repository>
                 <repository>
                     <id>artifact-registry</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-repo</url>
+                    <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-group</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -51,7 +51,7 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>artifact-registry</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-repo</url>
+                    <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-group</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>never</updatePolicy>
