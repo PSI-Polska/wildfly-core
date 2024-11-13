@@ -2215,7 +2215,38 @@
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>artifact-registry-snapshot</id>
+            <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-releases</url>
+        </repository>
+    </distributionManagement>
     <repositories>
+        <repository>
+            <id>artifact-registry-snapshot</id>
+            <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://europe-west3-maven.pkg.dev/psi-de-0-cd-poc-agro-0/maven-releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <releases>
                 <enabled>true</enabled>
@@ -2450,42 +2481,6 @@
             <build>
                 <defaultGoal>clean install</defaultGoal>
             </build>
-        </profile>
-        <profile>
-            <id>use-gcp-artifact-registry</id>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>artifact-registry-snapshot</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-snapshot2</url>
-                    <uniqueVersion>false</uniqueVersion>
-                </snapshotRepository>
-                <repository>
-                    <id>artifact-registry</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-repo</url>
-                </repository>
-            </distributionManagement>
-            <repositories>                
-                <repository>
-                    <id>artifact-registry-snapshot</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-snapshot2</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-                <repository>
-                    <id>artifact-registry</id>
-                    <url>artifactregistry://europe-west3-maven.pkg.dev/pocagrochocinski/maven-repo</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
         </profile>
     </profiles>
 </project>
