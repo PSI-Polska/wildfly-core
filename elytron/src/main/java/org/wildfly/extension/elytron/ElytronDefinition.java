@@ -26,6 +26,8 @@ import static org.wildfly.extension.elytron.Capabilities.SECURITY_REALM_RUNTIME_
 import static org.wildfly.extension.elytron.Capabilities.SSL_CONTEXT_CAPABILITY;
 import static org.wildfly.extension.elytron.CustomComponentDefinition.wrapFunction;
 import static org.wildfly.extension.elytron.ElytronExtension.isServerOrHostController;
+import static org.wildfly.extension.elytron.ElytronScheduledExecutorService.installScheduledExecutorService;
+import static org.wildfly.extension.elytron.ElytronScheduledExecutorService.uninstallScheduledExecutorService;
 import static org.wildfly.extension.elytron.SecurityActions.doPrivileged;
 import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.ROOT_LOGGER;
 
@@ -496,6 +498,7 @@ class ElytronDefinition extends SimpleResourceDefinition {
             if (registerJaspiFactory(context, model)) {
                 registerAuthConfigFactory(new ElytronAuthConfigFactory());
             }
+            installScheduledExecutorService(target);
 
             if (context.isNormalServer()) {
 
@@ -540,6 +543,7 @@ class ElytronDefinition extends SimpleResourceDefinition {
 
         @Override
         protected void rollbackRuntime(OperationContext context, ModelNode operation, Resource resource) {
+            uninstallScheduledExecutorService(context);
             uninstallSecurityPropertyService(context);
             context.removeService(ProviderRegistrationService.SERVICE_NAME);
             context.removeService(VIRTUAL_SECURITY_DOMAIN_CREATION_SERVICE);
