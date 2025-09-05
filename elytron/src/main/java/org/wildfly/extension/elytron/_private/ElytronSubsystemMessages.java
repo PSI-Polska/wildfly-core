@@ -337,6 +337,19 @@ public interface ElytronSubsystemMessages extends BasicLogger {
     @Message(id = 48, value = "A string representation of an X.500 distinguished name is required: %s")
     IllegalArgumentException representationOfX500IsRequired(String causeMessage);
 
+    @Message(id = 49, value = "Entry is not defined.")
+    StartException jaasEntryNotDefined();
+
+    @Message(id = 50, value = "The realm is not available. You can't flush the cache.")
+    OperationFailedException cachedRealmServiceNotAvailable();
+
+    @Message(id = 1221, value = "Unable to obtain DynamicSSLContext from the provided authentication context")
+    RuntimeException unableToObtainDynamicSSLContext();
+    // DO NOT FOLLOW ON FROM 1221
+
+    @Message(id = 51, value = "Registration of Jakarta Authorization failed.")
+    OperationFailedException unableToRegisterJakartaAuthorization();
+
     /*
      * Credential Store Section.
      */
@@ -398,6 +411,7 @@ public interface ElytronSubsystemMessages extends BasicLogger {
 
     @Message(id = 927, value = "The secret key operation '%s' failed to complete due to '%s'.")
     OperationFailedException secretKeyOperationFailed(String operationName, String error, @Cause Throwable cause);
+
 
     /*
      * Identity Resource Messages - 1000
@@ -651,6 +665,10 @@ public interface ElytronSubsystemMessages extends BasicLogger {
     @Message(id = 1089, value = "Invalid file encoding '%s'.")
     OperationFailedException invalidEncodingName(String encoding);
 
+    @Message(id = 1090, value = "Allowed jku values haven't been specified for token realm '%s'. Token validation will fail if the token contains a 'jku' header parameter. The allowed jku values can be specified as a space separated string using the '%s' system property.")
+    @LogMessage(level = WARN)
+    void noAllowedJkuValuesSpecifiedForTokenRealm(String realmName, String systemPropertyName);
+
     /*
      * Expression Resolver Section
      */
@@ -719,6 +737,9 @@ public interface ElytronSubsystemMessages extends BasicLogger {
     @Message(id = 1220, value = "Encryption secret key cannot be added to non-empty filesystem realm after initialization. To upgrade a filesystem realm, " +
             "use Elytron Tool command `filesystem-realm-encrypt`")
     OperationFailedException addSecretKeyToInitializedFilesystemRealm();
+
+    // Message ID 1221 Mistakenly used for DynamicSSLContext - Moved above.
+
 
     /*
      * Don't just add new errors to the end of the file, there may be an appropriate section above for the resource.
