@@ -26,6 +26,7 @@ import static org.wildfly.extension.elytron.Capabilities.SSL_CONTEXT_CAPABILITY;
 import static org.wildfly.extension.elytron.CustomComponentDefinition.wrapFunction;
 import static org.wildfly.extension.elytron.ElytronExtension.isServerOrHostController;
 import static org.wildfly.extension.elytron.SecurityActions.doPrivileged;
+import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.ROOT_LOGGER;
 
 import java.security.PrivilegedAction;
 import java.security.Provider;
@@ -37,7 +38,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.net.ssl.SSLContext;
-import jakarta.security.auth.message.config.AuthConfigFactory;
 
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
 import org.jboss.as.controller.AttributeMarshaller;
@@ -92,7 +92,10 @@ import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.authz.PermissionMapper;
 import org.wildfly.security.authz.RoleDecoder;
 import org.wildfly.security.authz.RoleMapper;
+import org.wildfly.security.jakarta.authz.AuthorizarionRegistration;
 import org.wildfly.security.manager.action.ReadPropertyAction;
+
+import jakarta.security.auth.message.config.AuthConfigFactory;
 
 /**
  * Top level {@link ResourceDefinition} for the Elytron subsystem.
@@ -493,6 +496,11 @@ class ElytronDefinition extends SimpleResourceDefinition {
             }
 
             if (context.isNormalServer()) {
+
+                if (!AuthorizarionRegistration.register()) {
+                    throw ROOT_LOGGER.unableToRegisterJakartaAuthorization();
+                }
+
                 context.addStep(new AbstractDeploymentChainStep() {
                     @Override
                     protected void execute(DeploymentProcessorTarget processorTarget) {
