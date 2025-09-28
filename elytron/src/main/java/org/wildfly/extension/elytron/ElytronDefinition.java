@@ -430,6 +430,10 @@ class ElytronDefinition extends SimpleResourceDefinition {
         protected void populateModel(OperationContext context, ModelNode operation, Resource resource) throws OperationFailedException {
             Version.getVersion();
             super.populateModel(context, operation, resource);
+
+            if (AuthorizationRegistration.supportsSelfRegistration()) {
+                context.registerCapability(JAKARTA_AUTHORIZATION_RUNTIME_CAPABILITY);
+            }
         }
 
         @Override
@@ -496,11 +500,10 @@ class ElytronDefinition extends SimpleResourceDefinition {
             installScheduledExecutorService(target);
 
             if (context.isNormalServer()) {
-
                 try {
-                    if (AuthorizationRegistration.register()) {
+                    if (AuthorizationRegistration.supportsSelfRegistration()) {
+                        AuthorizationRegistration.register();
                         ROOT_LOGGER.trace("Jakarta Authorization Dynamically Registered.");
-                        context.registerCapability(JAKARTA_AUTHORIZATION_RUNTIME_CAPABILITY);
                     }
                 } catch (GeneralSecurityException e) {
                     throw ROOT_LOGGER.unableToRegisterJakartaAuthorization(e);
