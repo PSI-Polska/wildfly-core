@@ -55,6 +55,7 @@ import org.xnio.conduits.StreamSinkConduit;
 import org.xnio.ssl.SslConnection;
 import org.xnio.ssl.XnioSsl;
 
+import io.undertow.UndertowOptions;
 import io.undertow.protocols.ssl.UndertowXnioSsl;
 import io.undertow.security.handlers.AuthenticationCallHandler;
 import io.undertow.security.handlers.AuthenticationConstraintHandler;
@@ -235,7 +236,13 @@ public class ManagementHttpServer {
             }
         }
 
-        HttpOpenListener openListener = new HttpOpenListener(bufferPool);
+        final OptionMap undertowOptions;
+        final OptionMap.Builder optionsBuilder = OptionMap.builder();
+        optionsBuilder.set(UndertowOptions.MAX_ENTITY_SIZE, builder.uploadLimit).set(UndertowOptions.MULTIPART_MAX_ENTITY_SIZE, builder.uploadLimit);
+
+        undertowOptions = optionsBuilder.getMap();
+
+        HttpOpenListener openListener = new HttpOpenListener(bufferPool, undertowOptions);
 
         int secureRedirectPort = builder.secureBindAddress != null ? builder.secureBindAddress.getPort() : -1;
         // WFLY-2870 -- redirect not supported if bindAddress and secureBindAddress are using different InetAddress
@@ -455,6 +462,7 @@ public class ManagementHttpServer {
         private Executor executor;
         private Map<String, List<Header>> constantHeaders;
         private ConsoleAvailability consoleAvailability;
+        private Long uploadLimit;
 
         private Builder() {
         }
@@ -577,6 +585,12 @@ public class ManagementHttpServer {
             assertNotBuilt();
             this.consoleAvailability = consoleAvailability;
 
+            return this;
+        }
+
+        public Builder setUploadLimit(Long uploadLimit) {
+            assertNotBuilt();
+            this.uploadLimit = uploadLimit;
             return this;
         }
     }
