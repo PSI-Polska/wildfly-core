@@ -70,6 +70,13 @@ import org.wildfly.security.credential.Credential;
 import org.wildfly.security.evidence.Evidence;
 import org.wildfly.security.password.spec.Encoding;
 
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
+
+import java.util.function.Function;
+import java.util.function.LongSupplier;
+
+import org.wildfly.common.function.ExceptionBiConsumer;
+
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by properties files.
  *
@@ -180,7 +187,8 @@ class PropertiesRealmDefinition {
                     serviceBuilder.requires(pathName(groupsRelativeTo));
                 }
             }
-
+            Function<SecurityRealm, SecurityRealm> realmTransformer =
+                    createBruteForceRealmTransformer(context.getCurrentAddressValue(), SecurityRealm.class, serviceBuilder);
             return new ValueSupplier<SecurityRealm>() {
 
                 private final List<Handle> callbackHandles = new ArrayList<>();
@@ -192,7 +200,7 @@ class PropertiesRealmDefinition {
 
                     try (InputStream usersInputStream = new FileInputStream(usersFile);
                             InputStream groupsInputStream = groupsFile != null ? new FileInputStream(groupsFile) : null) {
-                        return new RealmWrapper(LegacyPropertiesSecurityRealm.builder()
+                        LegacyPropertiesSecurityRealm baseRealm = LegacyPropertiesSecurityRealm.builder()
                                 .setUsersStream(usersInputStream)
                                 .setGroupsStream(groupsInputStream)
                                 .setPlainText(plainText)
@@ -200,8 +208,9 @@ class PropertiesRealmDefinition {
                                 .setDefaultRealm(digestRealmName)
                                 .setHashEncoding(BASE64.equalsIgnoreCase(hashEncoding) ? Encoding.BASE64 : Encoding.HEX)
                                 .setHashCharset(Charset.forName(hashCharset))
-                                .build(), usersFile, groupsFile);
+                                .build();
 
+                        return new RealmWrapper(realmTransformer.apply(baseRealm), usersFile, groupsFile, baseRealm::getLoadTime, baseRealm::load);
                     } catch (FileNotFoundException e) {
                         throw ROOT_LOGGER.propertyFilesDoesNotExist(e.getMessage());
                     } catch (RealmUnavailableException e) {
@@ -310,14 +319,19 @@ class PropertiesRealmDefinition {
 
     private static final class RealmWrapper implements SecurityRealm {
 
-        private final LegacyPropertiesSecurityRealm delegate;
+        private final SecurityRealm delegate;
         private final File usersFile;
         private final File groupsFile;
+        private final LongSupplier loadTimeSupplier;
+        private final ExceptionBiConsumer<InputStream, InputStream, IOException> propertiesFileLoader;
 
-        RealmWrapper(LegacyPropertiesSecurityRealm delegate, File usersFile, File groupsFile) {
+        RealmWrapper(SecurityRealm delegate, File usersFile, File groupsFile, LongSupplier loadTimeSupplier,
+                     ExceptionBiConsumer<InputStream, InputStream, IOException>  propertiesFileLoader) {
             this.delegate = delegate;
             this.usersFile = usersFile;
             this.groupsFile = groupsFile;
+            this.loadTimeSupplier = loadTimeSupplier;
+            this.propertiesFileLoader = propertiesFileLoader;
         }
 
         @Override
@@ -364,14 +378,14 @@ class PropertiesRealmDefinition {
         }
 
         long getLoadTime() {
-            return delegate.getLoadTime();
+            return loadTimeSupplier.getAsLong();
         }
 
         void reloadIfNeeded() throws IOException {
-            long loadTime = delegate.getLoadTime();
+            long loadTime = loadTimeSupplier.getAsLong();
             if (shouldReload(loadTime)) {
                 synchronized(this) {
-                    loadTime = delegate.getLoadTime();
+                    loadTime = loadTimeSupplier.getAsLong();
                     if (shouldReload(loadTime)) {
                         reloadInternal();
                     }
@@ -394,7 +408,7 @@ class PropertiesRealmDefinition {
         void reloadInternal() throws IOException {
             try (InputStream usersInputStream = new FileInputStream(usersFile);
                     InputStream groupsInputStream = groupsFile != null ? new FileInputStream(groupsFile) : null) {
-                delegate.load(usersInputStream, groupsInputStream);
+                propertiesFileLoader.accept(usersInputStream, groupsInputStream);
             }
         }
 

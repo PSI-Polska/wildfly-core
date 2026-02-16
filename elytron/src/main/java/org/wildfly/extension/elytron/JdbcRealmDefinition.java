@@ -72,6 +72,11 @@ import org.wildfly.security.password.interfaces.ScramDigestPassword;
 import org.wildfly.security.password.interfaces.SimpleDigestPassword;
 import org.wildfly.security.password.spec.Encoding;
 
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by a database using JDBC.
  *
@@ -612,8 +617,13 @@ class JdbcRealmDefinition extends SimpleResourceDefinition {
             final JdbcSecurityRealmBuilder builder = JdbcSecurityRealm.builder();
             builder.setHashCharset(charset);
 
-            TrivialService<SecurityRealm> service = new TrivialService<SecurityRealm>(builder::build);
-            ServiceBuilder<SecurityRealm> serviceBuilder = serviceTarget.addService(realmName, service);
+            ServiceBuilder<?> serviceBuilder = serviceTarget.addService();
+            Consumer<SecurityRealm> valueConsumer = serviceBuilder.provides(realmName);
+
+            Function<SecurityRealm, SecurityRealm> realmTransformer =
+                    createBruteForceRealmTransformer(context.getCurrentAddressValue(), SecurityRealm.class, serviceBuilder);
+
+            TrivialService<SecurityRealm> service = new TrivialService<SecurityRealm>(() -> realmTransformer.apply(builder.build()), valueConsumer);
 
             for (ModelNode query : principalQueries.asList()) {
                 String authenticationQuerySql = PrincipalQueryAttributes.SQL.resolveModelAttribute(context, query).asString();
@@ -639,6 +649,7 @@ class JdbcRealmDefinition extends SimpleResourceDefinition {
                 });
             }
 
+            serviceBuilder.setInstance(service);
             commonDependencies(serviceBuilder)
                     .setInitialMode(context.getRunningMode() == RunningMode.ADMIN_ONLY ? ServiceController.Mode.LAZY : ServiceController.Mode.ACTIVE)
                     .install();
