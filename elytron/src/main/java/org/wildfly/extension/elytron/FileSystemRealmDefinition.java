@@ -81,7 +81,12 @@ import org.wildfly.security.credential.store.CredentialStore;
 import org.wildfly.security.credential.store.CredentialStoreException;
 import org.wildfly.security.password.spec.Encoding;
 
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import org.wildfly.security.auth.server.ModifiableSecurityRealm;
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by a {@link KeyStore}.
  *
@@ -300,8 +305,8 @@ class FileSystemRealmDefinition extends SimpleResourceDefinition {
             ServiceTarget serviceTarget = context.getServiceTarget();
 
             String address = context.getCurrentAddressValue();
-            ServiceName mainServiceName = MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY.fromBaseCapability(address).getCapabilityServiceName();
-            ServiceName aliasServiceName = SECURITY_REALM_RUNTIME_CAPABILITY.fromBaseCapability(address).getCapabilityServiceName();
+            ServiceName modifiableServiceName = MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY.fromBaseCapability(address).getCapabilityServiceName();
+            ServiceName standardServiceName = SECURITY_REALM_RUNTIME_CAPABILITY.fromBaseCapability(address).getCapabilityServiceName();
 
             final int levels = LEVELS.resolveModelAttribute(context, model).asInt();
 
@@ -327,6 +332,15 @@ class FileSystemRealmDefinition extends SimpleResourceDefinition {
             }
             final SecretKey finalKey = key;
             ServiceRegistry keyStoreServiceRegistry = context.getServiceRegistry(true);
+
+            ServiceBuilder<?> serviceBuilder = serviceTarget.addService();
+            // This is the Service that will get pulled into a SecurityDomain etc...
+            Consumer<SecurityRealm> standardConsumer = serviceBuilder.provides(standardServiceName);
+            // This is the modifiable variant for resources that support modification operations etc..
+            Consumer<ModifiableSecurityRealm> modifiableConsumer = serviceBuilder.provides(modifiableServiceName);
+
+            Function<ModifiableSecurityRealm, ModifiableSecurityRealm> realmTransformer =
+                    createBruteForceRealmTransformer(context.getCurrentAddressValue(), ModifiableSecurityRealm.class, serviceBuilder);
 
             TrivialService<SecurityRealm> fileSystemRealmService = new TrivialService<>(
                     new TrivialService.ValueSupplier<SecurityRealm>() {
@@ -383,7 +397,12 @@ class FileSystemRealmDefinition extends SimpleResourceDefinition {
                                 fileSystemRealmBuilder.setPrivateKey(privateKey);
                                 fileSystemRealmBuilder.setPublicKey(publicKey);
                             }
-                            return fileSystemRealmBuilder.build();
+                            ModifiableSecurityRealm modifiable = fileSystemRealmBuilder.build();
+                            ModifiableSecurityRealm wrapped = realmTransformer.apply(modifiable);
+                            modifiableConsumer.accept(wrapped);
+                            standardConsumer.accept(wrapped);
+
+                            return modifiable;
 
                         }
 
@@ -397,8 +416,6 @@ class FileSystemRealmDefinition extends SimpleResourceDefinition {
 
                     });
 
-            ServiceBuilder<SecurityRealm> serviceBuilder = serviceTarget.addService(mainServiceName, fileSystemRealmService)
-                    .addAliases(aliasServiceName);
             if (credentialStore != null) {
                 serviceBuilder.requires(context.getCapabilityServiceName(buildDynamicCapabilityName(CREDENTIAL_STORE_CAPABILITY, credentialStore), CredentialStore.class));
             }
@@ -411,6 +428,7 @@ class FileSystemRealmDefinition extends SimpleResourceDefinition {
                 serviceBuilder.addDependency(PathManagerService.SERVICE_NAME, PathManager.class, pathManagerInjector);
                 serviceBuilder.requires(pathName(relativeTo));
             }
+            serviceBuilder.setInstance(fileSystemRealmService);
             serviceBuilder.install();
         }
 
