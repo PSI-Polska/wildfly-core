@@ -37,6 +37,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.net.ssl.SSLContext;
+
 import jakarta.security.auth.message.config.AuthConfigFactory;
 
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
@@ -196,7 +197,7 @@ class ElytronDefinition extends SimpleResourceDefinition {
 
         // Security Realms
         resourceRegistration.registerSubModel(new AggregateRealmDefinition());
-        resourceRegistration.registerSubModel(new CustomComponentDefinition<>(SecurityRealm.class, Function.identity(), ElytronDescriptionConstants.CUSTOM_REALM, SECURITY_REALM_RUNTIME_CAPABILITY));
+        resourceRegistration.registerSubModel(new CustomComponentDefinition<>(SecurityRealm.class, new CustomRealmBruteForceTransformer<>(SecurityRealm.class), ElytronDescriptionConstants.CUSTOM_REALM, SECURITY_REALM_RUNTIME_CAPABILITY));
         resourceRegistration.registerSubModel(ModifiableRealmDecorator.wrap(new CustomComponentDefinition<>(
                 ModifiableSecurityRealm.class, new CustomRealmBruteForceTransformer<>(ModifiableSecurityRealm.class), ElytronDescriptionConstants.CUSTOM_MODIFIABLE_REALM,
                 MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY, SECURITY_REALM_RUNTIME_CAPABILITY)));

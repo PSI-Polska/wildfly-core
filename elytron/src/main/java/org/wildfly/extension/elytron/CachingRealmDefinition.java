@@ -7,7 +7,12 @@ package org.wildfly.extension.elytron;
 import static org.wildfly.extension.elytron.Capabilities.SECURITY_REALM_CAPABILITY;
 import static org.wildfly.extension.elytron.Capabilities.SECURITY_REALM_RUNTIME_CAPABILITY;
 import static org.wildfly.extension.elytron.ElytronDefinition.commonDependencies;
-import static org.wildfly.extension.elytron.ElytronExtension.getRequiredService;
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.jboss.as.controller.AbstractAddStepHandler;
 import org.jboss.as.controller.AbstractWriteAttributeHandler;
@@ -15,7 +20,6 @@ import org.jboss.as.controller.AttributeDefinition;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.controller.OperationStepHandler;
-import org.jboss.as.controller.PathAddress;
 import org.jboss.as.controller.PathElement;
 import org.jboss.as.controller.ResourceDefinition;
 import org.jboss.as.controller.RunningMode;
@@ -34,8 +38,8 @@ import org.jboss.msc.service.ServiceBuilder;
 import org.jboss.msc.service.ServiceController;
 import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
-import org.jboss.msc.service.ServiceRegistry;
 import org.jboss.msc.service.ServiceTarget;
+import org.jboss.msc.service.StartException;
 import org.jboss.msc.value.InjectedValue;
 import org.wildfly.extension.elytron._private.ElytronSubsystemMessages;
 import org.wildfly.security.auth.realm.CacheableSecurityRealm;
@@ -45,14 +49,6 @@ import org.wildfly.security.auth.server.ModifiableSecurityRealm;
 import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.cache.LRURealmIdentityCache;
 import org.wildfly.security.cache.RealmIdentityCache;
-import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import org.jboss.msc.service.StartException;
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} which enables caching to another realm.
  *

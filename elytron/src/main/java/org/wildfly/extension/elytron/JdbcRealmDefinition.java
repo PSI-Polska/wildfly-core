@@ -16,6 +16,7 @@ import static org.wildfly.extension.elytron.ElytronDescriptionConstants.SALTED_S
 import static org.wildfly.extension.elytron.ElytronDescriptionConstants.SCRAM_MAPPER;
 import static org.wildfly.extension.elytron.ElytronDescriptionConstants.SIMPLE_DIGEST_MAPPER;
 import static org.wildfly.extension.elytron.ElytronDescriptionConstants.UTF_8;
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
 import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.ROOT_LOGGER;
 
 import java.nio.charset.Charset;
@@ -25,6 +26,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.sql.DataSource;
 
@@ -69,11 +72,6 @@ import org.wildfly.security.password.interfaces.SaltedSimpleDigestPassword;
 import org.wildfly.security.password.interfaces.ScramDigestPassword;
 import org.wildfly.security.password.interfaces.SimpleDigestPassword;
 import org.wildfly.security.password.spec.Encoding;
-
-import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by a database using JDBC.

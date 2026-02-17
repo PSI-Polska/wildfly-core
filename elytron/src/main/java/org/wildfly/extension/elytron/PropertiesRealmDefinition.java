@@ -13,6 +13,7 @@ import static org.wildfly.extension.elytron.ElytronExtension.ISO_8601_FORMAT;
 import static org.wildfly.extension.elytron.ElytronExtension.getRequiredService;
 import static org.wildfly.extension.elytron.FileAttributeDefinitions.RELATIVE_TO;
 import static org.wildfly.extension.elytron.FileAttributeDefinitions.pathName;
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
 import static org.wildfly.extension.elytron.SecurityActions.doPrivileged;
 import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.ROOT_LOGGER;
 
@@ -29,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.LongSupplier;
 
 import org.jboss.as.controller.AbstractAddStepHandler;
 import org.jboss.as.controller.AttributeDefinition;
@@ -58,6 +61,7 @@ import org.jboss.msc.service.ServiceController.State;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartException;
 import org.jboss.msc.value.InjectedValue;
+import org.wildfly.common.function.ExceptionBiConsumer;
 import org.wildfly.extension.elytron.TrivialResourceDefinition.Builder;
 import org.wildfly.extension.elytron.TrivialService.ValueSupplier;
 import org.wildfly.security.auth.SupportLevel;
@@ -69,13 +73,6 @@ import org.wildfly.security.auth.server.event.RealmEvent;
 import org.wildfly.security.credential.Credential;
 import org.wildfly.security.evidence.Evidence;
 import org.wildfly.security.password.spec.Encoding;
-
-import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
-
-import java.util.function.Function;
-import java.util.function.LongSupplier;
-
-import org.wildfly.common.function.ExceptionBiConsumer;
 
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by properties files.
