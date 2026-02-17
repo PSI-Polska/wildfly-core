@@ -337,6 +337,12 @@ public interface ElytronSubsystemMessages extends BasicLogger {
     @Message(id = 48, value = "A string representation of an X.500 distinguished name is required: %s")
     IllegalArgumentException representationOfX500IsRequired(String causeMessage);
 
+    @Message(id = 49, value = "Entry is not defined.")
+    StartException jaasEntryNotDefined();
+
+    @Message(id = 50, value = "The realm is not available. You can't flush the cache.")
+    OperationFailedException cachedRealmServiceNotAvailable();
+
     /*
      * Credential Store Section.
      */
