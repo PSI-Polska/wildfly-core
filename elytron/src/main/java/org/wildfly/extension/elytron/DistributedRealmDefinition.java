@@ -8,7 +8,12 @@ package org.wildfly.extension.elytron;
 import static org.wildfly.extension.elytron.Capabilities.SECURITY_REALM_CAPABILITY;
 import static org.wildfly.extension.elytron.Capabilities.SECURITY_REALM_RUNTIME_CAPABILITY;
 import static org.wildfly.extension.elytron.ElytronDefinition.commonDependencies;
+import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.jboss.as.controller.AbstractAddStepHandler;
 import org.jboss.as.controller.AbstractWriteAttributeHandler;
@@ -33,18 +38,10 @@ import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceTarget;
 import org.jboss.msc.value.InjectedValue;
-
 import org.wildfly.security.auth.realm.DistributedSecurityRealm;
 import org.wildfly.security.auth.server.SecurityDomain;
 import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.auth.server.event.SecurityRealmUnavailableEvent;
-
-import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} for authentication and authorization of identities distributed between multiple realms.

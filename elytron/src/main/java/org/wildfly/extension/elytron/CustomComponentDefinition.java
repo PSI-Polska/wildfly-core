@@ -14,10 +14,9 @@ import static org.wildfly.extension.elytron._private.ElytronSubsystemMessages.RO
 import java.lang.reflect.Method;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.jboss.as.controller.AbstractAddStepHandler;
@@ -40,8 +39,6 @@ import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.ServiceTarget;
 import org.jboss.msc.service.StartException;
-
-import java.util.function.BiFunction;
 
 /**
  * A {@link SimpleResourceDefinition} for a custom configurable component.

@@ -20,7 +20,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
@@ -64,13 +65,6 @@ import org.wildfly.security.auth.realm.ldap.LdapSecurityRealmBuilder.IdentityMap
 import org.wildfly.security.auth.server.ModifiableSecurityRealm;
 import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.password.spec.Encoding;
-
-import static org.wildfly.extension.elytron.RealmDefinitions.createBruteForceRealmTransformer;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import org.wildfly.security.auth.server.ModifiableSecurityRealm;
 
 /**
  * A {@link ResourceDefinition} for a {@link SecurityRealm} backed by LDAP.
