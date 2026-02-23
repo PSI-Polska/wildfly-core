@@ -91,6 +91,7 @@ import org.wildfly.security.auth.server.ModifiableSecurityRealm;
 import org.wildfly.security.auth.server.PrincipalDecoder;
 import org.wildfly.security.auth.server.RealmMapper;
 import org.wildfly.security.auth.server.SecurityDomain;
+import org.wildfly.security.auth.server.SecurityRealm;
 import org.wildfly.security.authz.PermissionMapper;
 import org.wildfly.security.authz.RoleDecoder;
 import org.wildfly.security.authz.RoleMapper;
@@ -196,8 +197,7 @@ class ElytronDefinition extends SimpleResourceDefinition {
 
         // Security Realms
         resourceRegistration.registerSubModel(new AggregateRealmDefinition());
-        resourceRegistration.registerSubModel(ModifiableRealmDecorator.wrap(new CustomComponentDefinition<>(ModifiableSecurityRealm.class, new CustomRealmBruteForceTransformer<>(ModifiableSecurityRealm.class), ElytronDescriptionConstants.CUSTOM_MODIFIABLE_REALM,
-                MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY, SECURITY_REALM_RUNTIME_CAPABILITY)));
+        resourceRegistration.registerSubModel(new CustomComponentDefinition<>(SecurityRealm.class, new CustomRealmBruteForceTransformer<>(SecurityRealm.class), ElytronDescriptionConstants.CUSTOM_REALM, SECURITY_REALM_RUNTIME_CAPABILITY));
         resourceRegistration.registerSubModel(ModifiableRealmDecorator.wrap(new CustomComponentDefinition<>(
                 ModifiableSecurityRealm.class, new CustomRealmBruteForceTransformer<>(ModifiableSecurityRealm.class), ElytronDescriptionConstants.CUSTOM_MODIFIABLE_REALM,
                 MODIFIABLE_SECURITY_REALM_RUNTIME_CAPABILITY, SECURITY_REALM_RUNTIME_CAPABILITY)));
