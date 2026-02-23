@@ -22,6 +22,7 @@ import org.jboss.as.controller.OperationFailedException;
 import org.jboss.as.controller.OperationStepHandler;
 import org.jboss.as.controller.PathElement;
 import org.jboss.as.controller.ResourceDefinition;
+import org.jboss.as.controller.RunningMode;
 import org.jboss.as.controller.SimpleAttributeDefinition;
 import org.jboss.as.controller.SimpleAttributeDefinitionBuilder;
 import org.jboss.as.controller.SimpleOperationDefinitionBuilder;
@@ -133,7 +134,7 @@ class CachingRealmDefinition extends SimpleResourceDefinition {
             serviceBuilder.setInstance(createService(context.getCurrentAddressValue(), cacheableRealm, maxEntries, maxAge, cacheableRealmValue, realmTransformer, valueConsumer));
 
             addRealmDependency(context, serviceBuilder, cacheableRealm, cacheableRealmValue);
-            commonDependencies(serviceBuilder).setInitialMode(ServiceController.Mode.ACTIVE).install();
+            commonDependencies(serviceBuilder).setInitialMode(context.getRunningMode() == RunningMode.ADMIN_ONLY ? ServiceController.Mode.LAZY : ServiceController.Mode.ACTIVE).install();
         }
 
         private TrivialService<SecurityRealm> createService(String ourRealmName, String wrappedRealmName, int maxEntries, long maxAge,
