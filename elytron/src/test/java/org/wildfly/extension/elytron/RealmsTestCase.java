@@ -43,6 +43,7 @@ import javax.xml.crypto.dsig.XMLSignature;
 import javax.xml.crypto.dsig.XMLSignatureFactory;
 import javax.xml.crypto.dsig.dom.DOMValidateContext;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.jboss.as.controller.client.helpers.ClientConstants;
 import org.jboss.as.subsystem.test.KernelServices;
 import org.jboss.dmr.ModelNode;
@@ -625,10 +626,10 @@ public class RealmsTestCase extends AbstractElytronSubsystemBaseTest {
                 Assert.fail(services.getBootError().toString());
             }
 
-            JaasSecurityRealm securityRealm;
+            SecurityRealm securityRealm;
             if (!(JdkUtils.isIbmJdk())) {
                 ServiceName serviceName = Capabilities.SECURITY_REALM_RUNTIME_CAPABILITY.getCapabilityServiceName("myJaasRealm");
-                securityRealm = (JaasSecurityRealm) services.getContainer().getService(serviceName).getValue();
+                securityRealm = (SecurityRealm) services.getContainer().getService(serviceName).getValue();
                 Assert.assertNotNull(securityRealm);
             } else {
                 // IBM JDK 8 does not recognize default policy type "JavaLoginConfig" so the path to JAAS configuration file must be provided via system property
