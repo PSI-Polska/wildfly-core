@@ -480,7 +480,7 @@
                             <configuration>
                                 <rules>
                                     <requireJavaVersion>
-                                        <version>[11,12)</version>
+                                        <version>[17,17)</version>
                                     </requireJavaVersion>
                                 </rules>
                             </configuration>
