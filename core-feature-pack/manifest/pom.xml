@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.wildfly.core</groupId>
         <artifactId>wildfly-core-feature-pack-parent</artifactId>
-        <version>28.0.1-9-PSI-SNAPSHOT</version>
+        <version>28.0.1-9-PSI</version>
     </parent>
 
     <artifactId>wildfly-core-manifest</artifactId>
