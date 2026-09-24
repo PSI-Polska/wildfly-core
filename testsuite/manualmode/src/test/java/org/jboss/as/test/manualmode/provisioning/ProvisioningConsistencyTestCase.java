@@ -117,6 +117,17 @@ public class ProvisioningConsistencyTestCase {
                 } else {
                     File distDir = getDistFile(dir, true, true, errors);
                     if (distDir != null) {
+                        System.out.println("===========================");
+                        System.out.println(dir);
+                        for(String file: dir.list() )
+                        {
+                            System.out.println(file);
+                        }
+                        System.out.println(distDir);
+                        for(String file: distDir.list() )
+                        {
+                            System.out.println(file);
+                        }
                         assertTrue(dir.toString(), Objects.deepEquals(dir.toFile().list(), distDir.list()));
                         return FileVisitResult.CONTINUE;
                     } else {
