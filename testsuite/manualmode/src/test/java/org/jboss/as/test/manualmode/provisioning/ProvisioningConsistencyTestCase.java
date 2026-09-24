@@ -119,7 +119,7 @@ public class ProvisioningConsistencyTestCase {
                     if (distDir != null) {
                         System.out.println("===========================");
                         System.out.println(dir);
-                        for(String file: dir.list() )
+                        for(String file: dir.toFile().list() )
                         {
                             System.out.println(file);
                         }
