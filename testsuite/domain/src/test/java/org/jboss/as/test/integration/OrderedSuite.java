@@ -1,5 +1,6 @@
 package org.jboss.as.test.integration;
 
+import org.jboss.as.test.integration.domain.suites.FullRbacProviderRunAsTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -24,7 +25,8 @@ import org.junit.runners.Suite;
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingStandardRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingServerGroupScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingHostScopedRolesTestCase.class,
-        org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsHostScopedRolesTestCase.class,
+        org.jboss.as.test.integration.domain.suites.FullRbacProviderRunAsTestSuite.class,
+        //org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsHostScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsServerGroupScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsStandardRolesTestCase.class,
 
