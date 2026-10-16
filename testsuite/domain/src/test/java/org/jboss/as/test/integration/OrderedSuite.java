@@ -31,7 +31,7 @@ import org.junit.runners.Suite;
 
         // TEST DOCELOWY ZAWSZE NA KOŃCU:
 //        org.jboss.as.test.integration.domain.suites.DomainTestSuite.class
-        org.jboss.as.test.integration.domain.suites.ManagementReadXmlTestCase.class
+        org.jboss.as.test.integration.domain.ManagementReadXmlTestCase.class
 })
 
 public class OrderedSuite {
