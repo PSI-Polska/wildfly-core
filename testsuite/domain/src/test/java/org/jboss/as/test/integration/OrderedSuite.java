@@ -10,7 +10,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         // Podejrzane testy z listy
-////        org.jboss.as.test.integration.respawn.RespawnTestCase.class,
+        org.jboss.as.test.integration.respawn.RespawnTestCase.class,
 ////        org.jboss.as.test.integration.respawn.RespawnHttpTestCase.class,
 //        org.jboss.as.test.integration.domain.ConfigurationChangesTestCase.class,
 //        org.jboss.as.test.integration.domain.HostControllerBootOperationsTestCase.class,
@@ -24,14 +24,14 @@ import org.junit.runners.Suite;
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingStandardRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingServerGroupScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingHostScopedRolesTestCase.class,
-        org.jboss.as.test.integration.domain.suites.FullRbacProviderRunAsTestSuite.class,
+//        org.jboss.as.test.integration.domain.suites.FullRbacProviderRunAsTestSuite.class,
         //org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsHostScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsServerGroupScopedRolesTestCase.class,
 //        org.jboss.as.test.integration.domain.rbac.RBACProviderRunAsStandardRolesTestCase.class,
 
         // TEST DOCELOWY ZAWSZE NA KOŃCU:
-        org.jboss.as.test.integration.domain.suites.DomainTestSuite.class
-//        org.jboss.as.test.integration.domain.suites.ManagementReadXmlTestCase.class
+//        org.jboss.as.test.integration.domain.suites.DomainTestSuite.class
+        org.jboss.as.test.integration.domain.suites.ManagementReadXmlTestCase.class
 })
 
 public class OrderedSuite {
