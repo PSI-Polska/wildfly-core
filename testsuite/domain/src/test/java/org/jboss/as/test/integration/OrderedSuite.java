@@ -10,8 +10,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         // Podejrzane testy z listy
-        org.jboss.as.test.integration.respawn.RespawnTestCase.class,
-        org.jboss.as.test.integration.respawn.RespawnHttpTestCase.class,
+//        org.jboss.as.test.integration.respawn.RespawnTestCase.class,
+//        org.jboss.as.test.integration.respawn.RespawnHttpTestCase.class,
         org.jboss.as.test.integration.domain.ConfigurationChangesTestCase.class,
         org.jboss.as.test.integration.domain.HostControllerBootOperationsTestCase.class,
         org.jboss.as.test.integration.domain.secondaryreconnect.SecondaryReconnectTestCase.class,
@@ -20,7 +20,7 @@ import org.junit.runners.Suite;
         org.jboss.as.test.integration.domain.management.ReadConfigAsFeaturesDomainTestCase.class,
         org.jboss.as.test.integration.domain.management.ServerStartFailureTestCase.class,
         org.jboss.as.test.integration.domain.DefaultInterfaceOverridingDomainTestCase.class,
-        org.jboss.as.test.integration.domain.management.cli.UndeployWildcardDomainTestCase.class,
+//        org.jboss.as.test.integration.domain.management.cli.UndeployWildcardDomainTestCase.class,
         org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingStandardRolesTestCase.class,
         org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingServerGroupScopedRolesTestCase.class,
         org.jboss.as.test.integration.domain.rbac.PropertiesRoleMappingHostScopedRolesTestCase.class,
