@@ -1,6 +1,5 @@
 package org.jboss.as.test.integration;
 
-import org.jboss.as.test.integration.domain.suites.FullRbacProviderRunAsTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
