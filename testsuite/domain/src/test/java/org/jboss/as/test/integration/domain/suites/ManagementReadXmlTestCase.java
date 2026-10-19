@@ -38,7 +38,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test of various read-config-as-xml against the domain controller.
+ * Test of various read-config-as-xml against the domain controller. This test fails if
+ * {@link org.jboss.as.test.integration.respawn.RespawnTestCase} was executed before on the same fork.
  *
  * @author Emmanuel Hugonnet (c) 2022 Red Hat, Inc.
  */
